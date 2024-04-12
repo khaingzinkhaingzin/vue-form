@@ -14,10 +14,11 @@
 
     <div>
       <label for="">Skills</label>
-      <input type="text" @keyup="addSkill" v-model="skill">
+      <input type="text" @keyup.alt="addSkill" v-model="skill">
     </div>
-
-    <p>{{ skills }}</p>
+    <div v-for="skill in skills" :key="skill">
+      <p>{{ skill }} <span class="cross" @click="deleteSkill(skill)"> &#x2716;</span></p>
+    </div>
 
     <div>
       <input type="checkbox" v-model="accept">
@@ -45,15 +46,24 @@ export default {
   },
   methods: {
     addSkill(e) {
-      if (e.key === ",") {
+      console.log(e);
+      if (e.key === "," && this.skill) {
         this.skills.push(this.skill);
         this.skill = "";
       }
+    },
+    deleteSkill(skill) {
+      this.skills = this.skills.filter((loopSkill) => {
+        return loopSkill !== skill; 
+      });
     }
   }
 }
 </script>
 
 <style>
-
+.cross {
+  cursor: pointer;
+  color: red;
+}
 </style>
